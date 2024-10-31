@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="gts_whatsapp_pos.ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
+        <xpath expr="//div[@class='receipt-options d-flex flex-column gap-2']" position="inside">
+            <div class="mt-4 send-whatsapp">  <!-- change form to div -->
+                <div class="input-whatsapp">
+                    <input type="tel" placeholder="Whatsapp: Receipt" t-model="orderUiState.inputWhatsapp" t-on-input="onInputWhatsapp" t-att-class="{ highlight: orderUiState.whatsappButtonDisabled }"/>
+                    <button class="send" t-on-click="onSendWhatsapp" t-att-class="{ highlight: !orderUiState.whatsappButtonDisabled }" type="submit"> <!--  t-on-click="onSendWhatsapp" t-att-class="{ highlight: !orderUiState.whatsappButtonDisabled }" type="submit" -->
+                        <i class="fa" t-att-class="orderUiState.isSending ? 'fa-fw fa-spin fa-circle-o-notch' : 'fa-solid fa-whatsapp'" aria-hidden="true"/>
+                    </button>
+<!--                    <button class="send" t-on-click="onSendWhatsapp" t-att-class="{ highlight: !orderUiState.whatsappButtonDisabled }" type="submit">-->
+<!--                        halo-->
+<!--                    </button>-->
+<!-- t-att-style="`width: ${this.ui.isSmall ? '4rem' : '8rem'}`" -->
+<!--                    <button class="btn btn-primary btn-lg lh-lg rounded-start-0 h-100" t-att-disabled="orderUiState.whatsappButtonDisabled" t-on-click="() => this.onSendWhatsapp()">-->
+<!--                        <i t-attf-class="fa {{sendReceipt.status === 'loading' and sendReceipt.lastArgs?.[0]?.name === 'Email' ? 'fa-fw fa-spin fa-circle-o-notch' : 'fa-paper-plane'}}" />-->
+<!--                    </button>-->
+                </div>
+            </div>
+
+            <div>
+                <p style="margin: 7px; font-size: 17px;">Enter your message.</p>
+            </div>
+
+            <div>
+                <textarea style="flex: 1; padding-left: 0.5rem; padding-top: 0.4rem; border-radius: 0.25rem !important; border: solid 1px rgb(206, 212, 218); color: $gray-700; transition: border-color 0.15s ease-in-out;" id="input_whatsapp" rows="2" cols="100" placeholder="Message" t-model="orderUiState.inputMessage" t-ref="input" name="note" onfocus="this.style.borderColor='#71639e'" onblur="this.style.borderColor='rgb(206, 212, 218)'"></textarea>
+            </div>
+        </xpath>
+    </t>
+</templates>
