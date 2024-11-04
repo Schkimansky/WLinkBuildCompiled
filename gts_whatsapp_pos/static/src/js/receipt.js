@@ -11,7 +11,7 @@ patch(ReceiptScreen.prototype, {
 
         const partner = this.currentOrder.get_partner();
         // console.log(Object.getOwnPropertyNames(this.currentOrder).concat(Object.getOwnPropertyNames(Object.getPrototypeOf(this.currentOrder))));
-        const orderName = this.currentOrder.get_name();
+        const orderName = this.currentOrder.name;
         var number = "";
 
         if (partner != null) {
@@ -66,14 +66,7 @@ patch(ReceiptScreen.prototype, {
         var number = this.orderUiState.inputWhatsapp;
         var message = this.orderUiState.inputMessage;
 
-        const ticketImage = await this.renderer.toJpeg(
-            OrderReceipt,
-            {
-                data: this.pos.get_order().export_for_printing(),
-                formatCurrency: this.env.utils.formatCurrency,
-            },
-            { addClass: "pos-receipt-print" }
-        );
-        await this.orm.call("pos.order", "whatsapp_template_message", [number, message, ticketImage]);
+        const ticketImage = await this.generateTicketImage();
+        await this.pos.data.call("pos.order", "whatsapp_template_message", [number, message, ticketImage]);
     },
 });
