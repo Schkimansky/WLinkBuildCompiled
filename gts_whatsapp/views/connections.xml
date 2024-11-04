@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Tree View -->
-    <record id="view_whatsapp_connection_tree" model="ir.ui.view">
-        <field name="name">whatsapp.connection.tree</field>
+    <record id="view_whatsapp_connection_list" model="ir.ui.view">
+        <field name="name">whatsapp.connection.list</field>
         <field name="model">whatsapp.connection</field>
         <field name="arch" type="xml">
-            <tree string="Whatsapp Connections">
+            <list string="Whatsapp Connections">
                 <field name="name"/>
                 <field name="logged_in"/>
                 <field name="requests_left"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -22,9 +22,9 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button string="Login" class="oe_stat_button" icon="fa-user" name="login" type="object"/>
-                        <button string="Logout" class="oe_stat_button" icon="fa-trash" name="logout" type="object"/>
-                        <button string="Set Default" class="oe_stat_button" icon="fa-server" help="If you click this button, This will become the default automatically selected connection" name="set_as_default_connection" type="object"/>
-                        <button string="Status" class="oe_stat_button" icon="fa-rotate-right" help="If you click this button, It will detect if you are logged in or not. And it also updates 'Requests Left Today'" name="check_status" type="object"/>
+                        <button string="Logout" class="oe_stat_button" icon="oi-close" name="logout" type="object"/>
+                        <button string="Set as Default" class="oe_stat_button" icon="fa-server" help="If you click this button, This will become the default automatically selected connection" name="set_as_default_connection" type="object"/>
+                        <button string="Check Status" class="oe_stat_button" icon="fa-rotate-right" help="If you click this button, It will detect if you are logged in or not. And it also updates 'Requests Left Today'" name="check_status" type="object"/>
                     </div>
 
                     <group>
@@ -39,10 +39,6 @@
                     </group>
                 </sheet>
 
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
@@ -52,7 +48,7 @@
         <field name="name">Whatsapp Connections</field>
         <field name="target">current</field>
         <field name="res_model">whatsapp.connection</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Search View -->
