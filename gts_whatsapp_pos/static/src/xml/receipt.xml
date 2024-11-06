@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="gts_whatsapp_pos.ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
-        <xpath expr="//div[@class='receipt-options d-flex flex-column gap-2']" position="inside">
+        <xpath expr="//form[hasclass('send-email')]" position="after">
             <div class="mt-4 send-whatsapp">  <!-- change form to div -->
                 <div class="input-whatsapp">
                     <input type="tel" placeholder="Whatsapp: Receipt" t-model="orderUiState.inputWhatsapp" t-on-input="onInputWhatsapp" t-att-class="{ highlight: orderUiState.whatsappButtonDisabled }"/>
