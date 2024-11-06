@@ -1,81 +1,17 @@
-odoo.define('gts_whatsapp_pos.ReceiptScreen', function(require) {
-	"use strict";
+/** @odoo-module */
+import { ReceiptScreen } from "@point_of_sale/app/screens/receipt_screen/receipt_screen";
+import { OrderReceipt } from "@point_of_sale/app/screens/receipt_screen/receipt/order_receipt";
+import { _t } from "@web/core/l10n/translation";
+import { patch } from "@web/core/utils/patch";
+import { useState } from "@odoo/owl";
 
-    const { Printer } = require('point_of_sale.Printer');
-	const ReceiptScreen = require('point_of_sale.ReceiptScreen');
-    const Registries = require('point_of_sale.Registries');
+patch(ReceiptScreen.prototype, {
+    setup() {
+        super.setup(...arguments);
 
-    const { onMounted, useRef, status } = owl;
-
-    const WhatsappReceiptScreen = ReceiptScreen =>
-        class extends ReceiptScreen {
-            constructor() {
-                super(...arguments);
-                const partner = this.currentOrder.get_partner();
-                const orderName = this.currentOrder.get_name();
-                var number = "";
-
-                if (partner != null) {
-                    number = partner.phone || "";
-                }
-
-                this.inputWhatsapp = number
-                this.inputMessage = `Hello, Here is your receipt for the following order id: ${orderName}.`
-                this.isSending = false
-                this.whatsappButtonDisabled = true
-                
-            }
-            is_valid_mobile() {
-                const value = this.inputWhatsapp;
-                if (value) {
-                    const valueLen = value.replace(/[^0-9]/g, "").length;
-                    return valueLen > 8 && valueLen < 15;
-                }
-                return false;
-            }
-
-            onInputWhatsapp(ev) {
-                this.whatsappButtonDisabled = false;
-                this.inputWhatsapp = ev.target.value;
-            }
-
-            async onSendWhatsapp() {
-               if (this.isSending) {
-                   return;
-               }
-               this.isSending = true;
-
-               setTimeout(async () => {
-                   try {
-                       await this._sendWhatsappToCustomer();
-                   } catch (error) {
-                       console.error(error);
-                       this.whatsappButtonDisabled = true;
-                   }
-
-                   this.isSending = false;
-               }, 100);
-            }
-
-            async _sendWhatsappToCustomer() {
-                var number = this.inputWhatsapp;
-                var message = this.inputMessage;
-
-                const receiptString = this.orderReceipt.el.innerHTML;
-                const printer = new Printer(null, this.env.pos);
-                const ticketImage = await printer.htmlToImg(receiptString);
-
-                await this.rpc({
-                    model: 'pos.order',
-                    method: 'whatsapp_template_message',
-                    args: [number, message, ticketImage],
-                });
-            }
-		};
-
-	Registries.Component.extend(ReceiptScreen, WhatsappReceiptScreen);
-	return ReceiptScreen;
-});
+        const partner = this.currentOrder.get_partner();
+        // console.log(Object.getOwnPropertyNames(this.currentOrder).concat(Object.getOwnPropertyNames(Object.getPrototypeOf(this.currentOrder))));
+        const orderName = this.currentOrder.name;
         var number = "";
 
         if (partner != null) {
@@ -130,5 +66,7 @@ odoo.define('gts_whatsapp_pos.ReceiptScreen', function(require) {
         var number = this.orderUiState.inputWhatsapp;
         var message = this.orderUiState.inputMessage;
 
+        const ticketImage = await this.generateTicketImage();
+        await this.pos.data.call("pos.order", "whatsapp_template_message", [number, message, ticketImage]);
     },
 });
