@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Tree View -->
-    <record id="view_whatsapp_connection_tree" model="ir.ui.view">
-        <field name="name">whatsapp.connection.tree</field>
+    <record id="view_whatsapp_connection_list" model="ir.ui.view">
+        <field name="name">whatsapp.connection.list</field>
         <field name="model">whatsapp.connection</field>
         <field name="arch" type="xml">
-            <tree string="Whatsapp Connections">
+            <list string="Whatsapp Connections">
                 <field name="name"/>
                 <field name="logged_in"/>
                 <field name="requests_left"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -39,10 +39,6 @@
                     </group>
                 </sheet>
 
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
@@ -52,7 +48,7 @@
         <field name="name">Whatsapp Connections</field>
         <field name="target">current</field>
         <field name="res_model">whatsapp.connection</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Search View -->
