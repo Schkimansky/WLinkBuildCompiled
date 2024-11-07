@@ -1,7 +1,7 @@
 .receipt-screen {
     .default-view .actions .send-whatsapp {
         display: flex;
-        margin-top: -15px !important;
+        margin-top: 18px !important;
 
         .input-whatsapp {
             display: flex;
@@ -21,13 +21,20 @@
             color: $gray-700;
         }
 
+        input:focus {
+            outline: none !important;
+            border: solid 1px $primary !important;
+        }
+
+        input:focus + button.highlight {
+            -webkit-box-shadow: inset 5px 0px 0px 0px lighten(rgba(113, 99, 158, 1), 10%) !important;
+            -moz-box-shadow: inset 5px 0px 0px 0px lighten(rgba(113, 99, 158, 1), 10%) !important;
+            box-shadow: inset 5px 0px 0px 0px lighten(rgba(113, 99, 158, 1), 10%) !important;
+        }
 
         button {
-            &.send:hover {
-                background-color: #5a4f7f !important;
-            }
             &.send {
-                padding: 1rem 51.5px;
+                padding: 1rem 44px;
 
                 border: none;
                 border-top-right-radius: 0.25rem;
